@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://s-production-4388.up.railway.app/api';
 
 // --- FUNGSI REGISTER ---
 async function handleRegister(event) {
@@ -268,3 +268,4 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tl && tl.dataset && tl.dataset.category) renderTukangs('tukang-list', tl.dataset.category);
 
 });
+
