@@ -66,7 +66,7 @@ async function handleRegister(event) {
                     localStorage.setItem('tukangs', JSON.stringify(existing));
                 } catch (e) { console.warn('Local save tukang failed', e); }
 
-                window.location.href = 'Folder Tukang/Beranda Tukang.html'; // Arahkan ke folder Tukang
+                window.location.href = 'BerandaTukang.html'; // Arahkan ke folder Tukang
             } else if (tipePengguna === 'pelanggan') {
                 window.location.href = 'login.html'; // Redirect ke login untuk pelanggan
             }
@@ -166,7 +166,7 @@ async function handleLogin(event) {
             
             // Arahkan ke halaman sesuai tipe pengguna
             if (result.user.tipe_pengguna === 'tukang') {
-                window.location.href = 'Folder Tukang/Beranda Tukang.html'; // Arahkan ke halaman tukang
+                window.location.href = 'BerandaTukang.html'; // Arahkan ke halaman tukang
             } else {
                 window.location.href = 'Beranda.html'; // Arahkan ke halaman pelanggan
             }
@@ -266,4 +266,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // If halaman layanan memiliki tukang-list and a data-category attribute, render filtered
     const tl = document.getElementById('tukang-list');
     if (tl && tl.dataset && tl.dataset.category) renderTukangs('tukang-list', tl.dataset.category);
+
 });
