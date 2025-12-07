@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Login </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background-image: url(https://img.freepik.com/free-photo/tropical-green-leaves-background_53876-88891.jpg?w=1800&t=st=1690450343~exp=1690450943~hmac=e262ed30d6b9423a150b38f1d9c0f2cb74ed04a6b2daf0e6d93c7cc9c81eac93); background-size: cover;">
+       
+    <section>
+        <div class="container">
+            <div class="row my-5 text-center">
+                <div class="col-12">
+                    <p class="fw-bolder display-1 text-white mb-0">Login</p>
+                    <p class="text-success text-white"> Silahkan masukan Email dan Password </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6 mx-auto">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <form onsubmit="handleLogin(event)" class="p-5">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Email</span>
+                                    <input type="email" id="email" class="form-control" placeholder="masukan email Anda" required>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Password</span>
+                                    <input type="password" id="password" class="form-control" placeholder="masukan password" required>
+                                </div>
+
+                                <p class="fs-6">anda belum punya akun? <a href="Register.html">Daftar</a></p>
+
+                                <div class="text-center ">
+                                    <button class="btn btn-primary w-100 btn-lg" type="submit"> Login </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>

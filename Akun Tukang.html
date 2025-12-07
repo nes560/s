@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akun Saya - HandyMan</title>
+    
+    <!-- 1. Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Font Modern -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- 3. Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: #1e293b; /* slate-800 */
+        }
+        
+        /* Utility untuk menyembunyikan scrollbar di beberapa browser */
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Animasi Transisi Halaman */
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Style khusus untuk Item Menu Akun (list item) */
+        .account-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background-color: white;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            color: #334155;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .account-item:hover { background-color: #f8fafc; }
+        .account-item:last-child { border-bottom: none; }
+        
+        /* Header section di dalam list */
+        .account-header {
+            padding: 16px 20px 8px 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #64748b;
+            background-color: #f8fafc;
+        }
+
+        /* Toast Notification Styling */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #2563eb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1e293b;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(-20px);
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen font-sans text-slate-800">
+
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container"></div>
+    
+    <!-- WRAPPER UTAMA RESPONSIF (Mode Desktop: Sidebar + Konten) -->
+    <div class="md:flex md:h-screen md:overflow-hidden">
+
+        <!-- =========================== -->
+        <!-- SIDEBAR (HANYA MUNCUL DI DESKTOP) -->
+        <!-- =========================== -->
+        <aside class="hidden md:flex flex-col w-64 bg-white border-r border-slate-200 h-full p-6 shadow-sm z-40">
+            <div class="flex items-center gap-2 mb-10 text-blue-600">
+                <i class="fa-solid fa-screwdriver-wrench text-2xl"></i>
+                <h1 class="font-bold text-xl tracking-tight text-slate-800">Handy<span class="text-blue-600">Man</span></h1>
+            </div>
+
+            <nav class="space-y-2 flex-1">
+                <button onclick="window.location.href='Beranda Tukang.html'" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-medium transition duration-200 border border-transparent">
+                    <i class="fa-solid fa-house w-6 text-center"></i> Dashboard
+                </button>
+                
+                <button onclick="window.location.href='Orderan.html'" id="nav-orderan" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-medium transition duration-200 border border-transparent">
+                    <i class="fa-solid fa-clipboard-list w-6 text-center"></i> Orderan
+                </button>
+                
+                <button onclick="window.location.href='Notifikasi.html'" id="nav-notifikasi" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-medium transition duration-200 border border-transparent">
+                    <i class="fa-solid fa-bell w-6 text-center"></i> Notifikasi
+                </button>
+
+                <!-- Akun Saya (Aktif Default) -->
+                <button onclick="window.location.href='Akun Tukang.html'" id="nav-akun" class="nav-btn w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-xl font-medium transition shadow-sm border border-blue-100">
+                    <i class="fa-solid fa-user w-6 text-center"></i> Akun Saya
+                </button>
+            </nav>
+
+            <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl font-medium transition mt-auto border border-red-100">
+                <i class="fa-solid fa-power-off w-6 text-center"></i> Keluar
+            </button>
+        </aside>
+
+        <!-- =========================== -->
+        <!-- AREA KONTEN UTAMA -->
+        <!-- =========================== -->
+        <main class="flex-1 relative md:bg-slate-50 md:overflow-y-auto">
+            
+            <!-- CONTAINER MOBILE (max-w-md untuk membatasi di tengah saat desktop jika perlu) -->
+            <div class="w-full md:max-w-none max-w-md mx-auto bg-slate-50 min-h-screen md:min-h-0 relative shadow-none md:shadow-none overflow-hidden flex flex-col md:p-8">
+                
+                <!-- HEADER & PROFIL (Sticky di Mobile) -->
+                <div class="px-6 pt-8 pb-4 bg-white md:bg-transparent md:p-0 flex justify-between items-center sticky top-0 md:static z-30 border-b border-slate-100 md:border-none md:mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full p-0.5 border-2 border-blue-500">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Profil" class="w-full h-full rounded-full bg-slate-200">
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 font-medium">Selamat Datang,</p>
+                            <h2 class="text-lg font-bold text-slate-800 leading-tight" id="nama-mitra">Budi Santoso</h2>
+                        </div>
+                    </div>
+                    <!-- Tombol Logout Mobile -->
+                    <button onclick="logout()" id="mobile-logout-btn" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition md:hidden">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </div>
+
+                <!-- DYNAMIC CONTENT PAGES -->
+                <div id="content-area" class="flex-1 overflow-y-auto hide-scroll p-6 pb-28 md:p-0 md:pb-0">
+                    
+                    <!-- Halaman Akun Sebenarnya -->
+                    <div id="page-akun" class="page-section fade-in">
+                        
+                        <h2 class="text-xl font-bold text-slate-800 mb-4 hidden md:block">Kelola Akun</h2>
+
+                        <!-- Menu List -->
+                        <div class="bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden mb-6">
+                            
+                            <!-- Section: Akun Saya -->
+                            <div class="account-header">Akun Saya</div>
+                            <div class="account-item" onclick="handleMenuClick('Kelola Profil')">
+                                <span>Kelola Profil</span>
+                                <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                            </div>
+                            <!-- LINK KE ORDERAN -->
+                            <div class="account-item" onclick="window.location.href='Orderan.html'">
+                                <span>Pesanan</span>
+                                <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                            </div>
+                            <!-- TOMBOL ALAMAT -->
+                            <div class="account-item" onclick="handleMenuClick('Alamat')">
+                                <span>Alamat</span>
+                                <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                            </div>
+                            <!-- TOMBOL KARTU/REKENING -->
+                            <div class="account-item" onclick="handleMenuClick('Kartu / Rekening Saya')">
+                                <span>Kartu / Rekening Saya</span>
+                                <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                            </div>
+
+                            <!-- Section: Pengaturan -->
+                            <div class="account-header border-t border-slate-100">Pengaturan</div>
+                            <div class="account-item" onclick="handleMenuClick('Pengaturan Chat')">
+                                <span>Pengaturan Chat</span>
+                                <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                            </div>
+                            <div class="account-item" onclick="handleMenuClick('Bahasa / Language')">
+                                <span>Bahasa / Language</span>
+                                <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                            </div>
+                            <div class="account-item" onclick="handleMenuClick('Pengaturan Notifikasi')">
+                                <span>Pengaturan Notifikasi</span>
+                                <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                            </div>
+
+                            <!-- Section: Bantuan -->
+                            <div class="account-header border-t border-slate-100">Bantuan</div>
+                            <div class="account-item" onclick="handleMenuClick('Pusat Bantuan')">
+                                <span>Pusat Bantuan</span>
+                                <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                            </div>
+                            <div class="account-item" onclick="handleMenuClick('Ajukan Penghapusan Akun')">
+                                <span>Ajukan Penghapusan Akun</span>
+                                <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                            </div>
+                            
+                            <!-- Tombol Keluar -->
+                            <div class="account-item border-t border-slate-100" onclick="logout()">
+                                <span class="text-red-500 font-medium">Keluar</span>
+                            </div>
+                        </div>
+
+                        <p class="text-center text-xs text-slate-400 pb-4">Versi Aplikasi 1.0.5</p>
+
+                    </div>
+
+                </div> <!-- End Content Area -->
+
+                <!-- NAVIGASI BAWAH (HANYA MUNCUL DI MOBILE) -->
+                <div class="md:hidden absolute bottom-6 left-1/2 transform -translate-x-1/2 w-[90%] bg-white/90 backdrop-blur-md border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-2xl p-2 flex justify-between items-center z-50">
+                    <!-- Dashboard (Inaktif) -->
+                    <button onclick="window.location.href='Beranda Tukang.html'" class="mobile-nav-btn w-full py-2 flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 relative group transition-colors">
+                        <i class="fa-solid fa-house text-xl transition group-hover:scale-110"></i>
+                    </button>
+                    <button onclick="window.location.href='Orderan.html'" class="mobile-nav-btn w-full py-2 flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition group relative">
+                        <i class="fa-solid fa-clipboard-list text-xl transition group-hover:scale-110"></i>
+                    </button>
+                    <button onclick="window.location.href='Notifikasi.html'" class="mobile-nav-btn w-full py-2 flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition group relative">
+                        <i class="fa-solid fa-bell text-xl transition group-hover:scale-110"></i>
+                        <span id="mobile-badge" class="absolute top-2 right-6 w-2 h-2 bg-red-500 rounded-full border border-white hidden"></span>
+                    </button>
+                    <!-- Akun (Aktif Default) -->
+                    <button onclick="window.location.href='Akun Tukang.html'" class="mobile-nav-btn w-full py-2 flex flex-col items-center gap-1 text-blue-600 transition group relative">
+                        <i class="fa-solid fa-user text-xl transition group-hover:scale-110"></i>
+                        <span class="w-1 h-1 bg-blue-600 rounded-full absolute bottom-1"></span>
+                    </button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- PENTING: LINK KE FILE JAVASCRIPT EKSTERNAL -->
+    <script src="scriptTukang.js"></script> 
+
+</body>
+</html>

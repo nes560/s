@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifikasi - HandyMan Mitra</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        /* Animasi untuk Toast Notifikasi */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .toast-enter { animation: slideIn 0.5s ease-out forwards; }
+
+        /* Toast Notification Styling */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #2563eb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1e293b;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(-20px);
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen font-sans text-slate-800">
+
+    <!-- Container Toast (Untuk Notifikasi Pop-up) -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 w-80 pointer-events-none">
+        <!-- Toast akan disuntikkan di sini oleh JS -->
+    </div>
+
+    <div class="md:flex md:h-screen md:overflow-hidden">
+
+        <!-- SIDEBAR -->
+        <aside class="hidden md:flex flex-col w-64 bg-white border-r border-slate-200 h-full p-6 shadow-sm z-40">
+            <div class="flex items-center gap-2 mb-10 text-blue-600">
+                <i class="fa-solid fa-screwdriver-wrench text-2xl"></i>
+                <h1 class="font-bold text-xl tracking-tight text-slate-800">Handy<span class="text-blue-600">Man</span></h1>
+            </div>
+
+            <nav class="space-y-2 flex-1">
+                <button onclick="window.location.href='Beranda Tukang.html'" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-medium transition duration-200 border border-transparent">
+                    <i class="fa-solid fa-house w-6 text-center"></i> Dashboard
+                </button>
+                
+                <button onclick="window.location.href='Orderan.html'" id="nav-orderan" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-medium transition duration-200 border border-transparent">
+                    <i class="fa-solid fa-clipboard-list w-6 text-center"></i> Orderan
+                </button>
+                
+                <button onclick="window.location.href='Notifikasi.html'" id="nav-notifikasi" class="nav-btn w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-xl font-medium transition shadow-sm border border-blue-100">
+                    <i class="fa-solid fa-bell w-6 text-center"></i> Notifikasi <span id="sidebar-badge" class="ml-auto bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full hidden">0</span>
+                </button>
+
+                <button onclick="window.location.href='Akun Tukang.html'" id="nav-akun" class="nav-btn w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-blue-50 hover:text-blue-600 rounded-xl font-medium transition duration-200 border border-transparent">
+                    <i class="fa-solid fa-user w-6 text-center"></i> Akun Saya
+                </button>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="flex-1 relative md:bg-slate-50 md:overflow-y-auto">
+            <div class="w-full md:max-w-3xl mx-auto min-h-screen md:min-h-0 relative p-4 md:p-8">
+                
+                <!-- Header Halaman -->
+                <div class="flex justify-between items-center mb-6 bg-white md:bg-transparent p-4 md:p-0 rounded-2xl shadow-sm md:shadow-none sticky top-0 z-30">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Notifikasi</h2>
+                        <p class="text-slate-500 text-sm">Update terbaru seputar pekerjaan Anda</p>
+                    </div>
+                    <button onclick="markAllAsRead()" class="text-sm font-semibold text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-3 py-2 rounded-lg transition">
+                        <i class="fa-solid fa-check-double mr-1"></i> Tandai Semua Dibaca
+                    </button>
+                </div>
+
+                <!-- KATEGORI FILTER (Opsional UI) -->
+                <div class="flex gap-2 mb-6 overflow-x-auto pb-2 hide-scroll">
+                    <button class="px-4 py-2 bg-slate-800 text-white rounded-full text-sm font-medium whitespace-nowrap">Semua</button>
+                    <button class="px-4 py-2 bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 rounded-full text-sm font-medium whitespace-nowrap">Orderan</button>
+                    <button class="px-4 py-2 bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 rounded-full text-sm font-medium whitespace-nowrap">Transaksi</button>
+                    <button class="px-4 py-2 bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 rounded-full text-sm font-medium whitespace-nowrap">Info</button>
+                </div>
+
+                <!-- LIST NOTIFIKASI -->
+                <!-- Data akan dirender di sini oleh JavaScript -->
+                <div id="notification-list" class="space-y-3 pb-20">
+                    
+                    <!-- State Loading Awal -->
+                    <div class="text-center py-10 text-slate-400 animate-pulse">
+                        <i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i>
+                        <p>Memuat notifikasi...</p>
+                    </div>
+
+                </div>
+                 <!-- NAVIGASI BAWAH (HANYA MUNCUL DI MOBILE) -->
+                <div class="md:hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 w-[90%] bg-white/90 backdrop-blur-md border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-2xl p-2 flex justify-between items-center z-50">
+                    <button onclick="window.location.href='Beranda Tukang.html'" class="w-full py-2 flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition">
+                        <i class="fa-solid fa-house text-xl"></i>
+                    </button>
+                    <button onclick="window.location.href='Orderan.html'" class="w-full py-2 flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition">
+                        <i class="fa-solid fa-clipboard-list text-xl"></i>
+                    </button>
+                    <button onclick="window.location.href='Notifikasi.html'" class="w-full py-2 flex flex-col items-center gap-1 text-blue-600 relative">
+                        <i class="fa-solid fa-bell text-xl"></i>
+                        <span class="w-1 h-1 bg-blue-600 rounded-full absolute bottom-1"></span>
+                    </button>
+                    <button onclick="window.location.href='Akun Tukang.html'" class="w-full py-2 flex flex-col items-center gap-1 text-slate-400 hover:text-red-500 transition">
+                        <i class="fa-solid fa-user text-xl"></i>
+                    </button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Menghubungkan File JS -->
+    <script src="scriptTukang.js"></script>
+</body>
+</html>

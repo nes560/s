@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tukang Connect - Aplikasi Jasa Modern</title>
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Animation for View Switching */
+        .view-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans text-slate-800">
+
+    <!-- MAIN WRAPPER: Responsive Layout -->
+    <div class="max-w-7xl mx-auto min-h-screen relative md:flex">
+
+        <!-- =========================== -->
+        <!-- DESKTOP SIDEBAR (Visible on md+) -->
+        <!-- =========================== -->
+        <aside class="hidden md:flex flex-col w-64 bg-white border-r border-slate-200 h-screen sticky top-0 p-6 shadow-sm z-40">
+            <div class="flex items-center gap-2 mb-10 text-blue-600">
+                <!-- Icon: Hammer -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fill-blue-100"><path d="m15 12-8.5 8.5c-.83.83-2.17.83-3 0 0 0 0 0 0 0a2.12 2.12 0 0 1 0-3L12 9"/><path d="M17.64 15 22 10.64"/><path d="m20.91 11.7-1.25-1.25c-.6-.6-.93-1.4-.93-2.25V7.86c0-.55-.45-1-1-1H14.5c-.85 0-1.65-.33-2.25-.93L11 4.71"/><path d="M5.5 8.5 9 12"/></svg>
+                <h1 class="font-bold text-xl tracking-tight text-slate-800">Handy<span class="text-blue-600">Man</span></h1>
+            </div>
+
+            <nav class="space-y-2 flex-1">
+                <button onclick="navigateTo('view-home')" class="w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-xl font-medium transition">
+                    <!-- Icon: Home -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Beranda
+                </button>
+                <button onclick="window.location.href='Pesanan.html'" class="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-700 rounded-xl font-medium transition" >
+                    <!-- Icon: Calendar -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                    Pesanan
+                </button>
+                <button onclick="window.location.href='chat.html'" class="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-700 rounded-xl font-medium transition">
+                    <!-- Icon: Message Square -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Chat
+                </button>
+                <button onclick="window.location.href='Akun Pelanggan.html'" class="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-700 rounded-xl font-medium transition">
+                    <!-- Icon: User -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Profil
+                </button>
+            </nav>
+
+            <div class="mt-auto pt-6 border-t border-slate-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-xs">PS</div>
+                    <div>
+                        <p class="text-sm font-bold text-slate-700">Pelanggan Setia</p>
+                        <p class="text-xs text-slate-400">Premium Member</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- =========================== -->
+        <!-- CONTENT AREA -->
+        <!-- =========================== -->
+        <main class="flex-1 min-h-screen relative overflow-x-hidden pb-24 md:pb-0">
+
+            <!-- VIEW 1: HOME (Beranda) -->
+            <div id="view-home" class="view-section active">
+                
+                <!-- Header Section -->
+                <div class="bg-gradient-to-br from-blue-500 to-blue-700 pt-8 pb-12 px-6 md:px-10 rounded-b-[2.5rem] md:rounded-b-[3rem] shadow-xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-10 -mt-10 blur-3xl"></div>
+                    
+                    <div class="flex justify-between items-center mb-6 relative z-10 md:hidden">
+                        <!-- Mobile Header Info -->
+                        <div>
+                            <p class="text-blue-100 text-sm mb-1">Selamat Pagi,</p>
+                            <h1 class="text-white font-bold text-2xl">Pelanggan Setia</h1>
+                        </div>
+                        <button class="bg-white/20 p-2.5 rounded-full text-white backdrop-blur-md">
+                            <!-- Icon: Bell -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Header Info -->
+                    <div class="hidden md:block mb-8 relative z-10">
+                        <h1 class="text-white font-bold text-3xl mb-2">Temukan Jasa Terbaik</h1>
+                        <p class="text-blue-100">Solusi perbaikan rumah dalam satu genggaman</p>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="bg-white p-4 rounded-2xl flex items-center shadow-lg transform translate-y-6 max-w-2xl mx-auto md:mx-0">
+                        <!-- Icon: Search -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500 mr-3"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="text" placeholder="Cari jasa (mis: AC bocor, Cat tembok...)" class="w-full outline-none text-slate-700 text-sm md:text-base placeholder-slate-400 bg-transparent">
+                    </div>
+                </div>
+
+                <!-- Main Content Container -->
+                <div class="px-5 md:px-10 pt-10">
+                    
+                    <!-- Promo Slider -->
+                    <div class="flex gap-4 overflow-x-auto pb-6 -mx-5 px-5 md:mx-0 md:px-0 no-scrollbar snap-x">
+                        <div class="bg-gradient-to-r from-red-500 to-red-600 min-w-[280px] md:min-w-[320px] p-6 rounded-2xl text-white shadow-lg flex-shrink-0 snap-center relative overflow-hidden cursor-pointer hover:scale-[1.02] transition">
+                            <!-- Icon: Zap -->
+                            <div class="absolute right-0 bottom-0 opacity-20 transform translate-x-4 translate-y-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            </div>
+                            <span class="bg-white/20 text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider relative z-10">Promo</span>
+                            <h3 class="font-bold text-xl mt-2 relative z-10">Promo Merdeka</h3>
+                            <p class="text-white/90 text-sm mt-1 relative z-10">Diskon 17% semua jasa</p>
+                        </div>
+                        <div class="bg-gradient-to-r from-blue-500 to-blue-600 min-w-[280px] md:min-w-[320px] p-6 rounded-2xl text-white shadow-lg flex-shrink-0 snap-center relative overflow-hidden cursor-pointer hover:scale-[1.02] transition">
+                            <!-- Icon: Snowflake -->
+                            <div class="absolute right-0 bottom-0 opacity-20 transform translate-x-4 translate-y-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></svg>
+                            </div>
+                            <span class="bg-white/20 text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider relative z-10">Spesial AC</span>
+                            <h3 class="font-bold text-xl mt-2 relative z-10">Cuci AC Hemat</h3>
+                            <p class="text-white/90 text-sm mt-1 relative z-10">Mulai Rp 40rb / unit</p>
+                        </div>
+                    </div>
+
+                    <!-- Categories Grid -->
+                    <div class="mt-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="font-bold text-slate-800 text-lg md:text-xl">Layanan Utama</h2>
+                            <button onclick="navigateTo('view-category')" class="text-blue-600 text-sm font-bold bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100">Lihat Semua</button>
+                        </div>
+                        <!-- Responsive Grid -->
+                        <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-y-6 gap-x-4">
+                            <!-- Category Items -->
+                            <button onclick="window.location.href='LayananListrik_copy.html'" class="flex flex-col items-center gap-2 group">
+                                <div class="bg-amber-100 text-amber-600 w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-2xl shadow-sm group-hover:scale-110 transition border border-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                </div>
+                                <span class="text-[11px] md:text-xs text-slate-600 font-medium text-center">Listrik</span>
+                            </button>
+                            <button onclick="window.location.href='LayananPipa_copy.html'" class="flex flex-col items-center gap-2 group">
+                                <div class="bg-blue-100 text-blue-600 w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-2xl shadow-sm group-hover:scale-110 transition border border-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/></svg>
+                                </div>
+                                <span class="text-[11px] md:text-xs text-slate-600 font-medium text-center">Pipa</span>
+                            </button>
+                            <button onclick="window.location.href='LayananServis_copy.html'" class="flex flex-col items-center gap-2 group">
+                                <div class="bg-slate-100 text-slate-600 w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-2xl shadow-sm group-hover:scale-110 transition border border-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                                </div>
+                                <span class="text-[11px] md:text-xs text-slate-600 font-medium text-center">Servis</span>
+                            </button>
+                            <button onclick="window.location.href='LayananCat_copy.html'" class="flex flex-col items-center gap-2 group">
+                                <div class="bg-orange-100 text-orange-600 w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-2xl shadow-sm group-hover:scale-110 transition border border-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/><path d="m5 2 5 5"/><path d="M2 13h15"/><path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z"/></svg>
+                                </div>
+                                <span class="text-[11px] md:text-xs text-slate-600 font-medium text-center">Cat</span>
+                            </button>
+                            <button onclick="window.location.href='LayananAC_copy.html'" class="flex flex-col items-center gap-2 group">
+                                <div class="bg-cyan-100 text-cyan-600 w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-2xl shadow-sm group-hover:scale-110 transition border border-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></svg>
+                                </div>
+                                <span class="text-[11px] md:text-xs text-slate-600 font-medium text-center">AC</span>
+                            </button>
+                            <button onclick="window.location.href='LayananBersih_copy.html'" class="flex flex-col items-center gap-2 group">
+                                <div class="bg-emerald-100 text-emerald-600 w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-2xl shadow-sm group-hover:scale-110 transition border border-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M9 3v4"/><path d="M3 5h4"/><path d="M3 9h4"/></svg>
+                                </div>
+                                <span class="text-[11px] md:text-xs text-slate-600 font-medium text-center">Bersih</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Recommended Providers (LIST VIEW) -->
+                    <div class="mt-8 mb-4">
+                        <h2 class="font-bold text-slate-800 text-lg md:text-xl mb-4">Mitra Pilihan</h2>
+                        
+                        <!-- Provider List (dynamic) -->
+                        <div id="provider-list" class="space-y-4">
+                            <!-- Tukang akan dirender di sini dari localStorage -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 2: CATEGORY LIST (Simplified Grid with Text Avatars in List) -->
+            <div id="view-category" class="view-section">
+                <div class="bg-white px-5 py-4 sticky top-0 z-20 shadow-sm flex items-center justify-between md:rounded-b-2xl md:mb-4">
+                    <div class="flex items-center">
+                        <button onclick="navigateTo('view-home')" class="mr-4 p-2 -ml-2 rounded-full hover:bg-slate-100 text-slate-700 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                        </button>
+                        <h1 id="category-title" class="font-bold text-xl text-slate-800">Semua Layanan</h1>
+                    </div>
+                    <button class="p-2 bg-slate-100 rounded-full text-slate-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                    </button>
+                </div>
+                
+                <div class="p-5 md:p-10 space-y-4 max-w-5xl mx-auto">
+                    <p class="text-slate-500 text-sm">Menampilkan mitra terbaik di sekitarmu</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Provider List Item 1 -->
+                        <div onclick="openProviderDetail('101')" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 active:scale-[0.98] transition cursor-pointer hover:shadow-md hover:border-blue-200">
+                            <div class="relative">
+                                <div class="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-2xl">
+                                    BS
+                                </div>
+                                <div class="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500 fill-white"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-bold text-slate-800 text-base truncate pr-2">Pak Budi Santoso</h3>
+                                    <div class="flex items-center bg-amber-50 px-1.5 py-0.5 rounded-md border border-amber-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-500 mr-1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                        <span class="font-bold text-amber-700 text-xs">4.8</span>
+                                    </div>
+                                </div>
+                                <p class="text-slate-500 text-xs mt-1 truncate">Ahli Listrik • 1.2 km</p>
+                                <div class="flex items-center justify-between mt-3">
+                                    <span class="font-bold text-blue-600 text-sm">Rp 50.000</span>
+                                    <button class="px-3 py-1.5 bg-blue-50 text-blue-700 text-xs font-bold rounded-lg hover:bg-blue-100 transition">Pilih</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Provider List Item 2 -->
+                        <div onclick="openProviderDetail('103')" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 active:scale-[0.98] transition cursor-pointer hover:shadow-md hover:border-blue-200">
+                            <div class="relative">
+                                <div class="w-16 h-16 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold text-2xl">
+                                    KA
+                                </div>
+                                <div class="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500 fill-white"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-bold text-slate-800 text-base truncate pr-2">Kang Asep</h3>
+                                    <div class="flex items-center bg-amber-50 px-1.5 py-0.5 rounded-md border border-amber-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-500 mr-1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                        <span class="font-bold text-amber-700 text-xs">4.9</span>
+                                    </div>
+                                </div>
+                                <p class="text-slate-500 text-xs mt-1 truncate">Tukang Cat • 0.8 km</p>
+                                <div class="flex items-center justify-between mt-3">
+                                    <span class="font-bold text-blue-600 text-sm">Rp 75.000</span>
+                                    <button class="px-3 py-1.5 bg-blue-50 text-blue-700 text-xs font-bold rounded-lg hover:bg-blue-100 transition">Pilih</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: PROVIDER DETAIL -->
+            <div id="view-provider" class="view-section pb-32">
+                <div class="max-w-4xl mx-auto md:mt-6 md:rounded-3xl overflow-hidden md:border md:border-slate-200 md:shadow-sm bg-white">
+                    <!-- Header Image Area -->
+                    <div class="relative h-48 md:h-64 bg-blue-600 rounded-b-[2.5rem] md:rounded-none overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-700 opacity-90"></div>
+                        <div class="absolute inset-0 opacity-10 bg-white" style="background: radial-gradient(circle at center, white 0%, transparent 70%);"></div>
+                        
+                        <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center text-white z-10">
+                            <button onclick="navigateTo('view-home')" class="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                            </button>
+                            <button class="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition">
+                                <!-- Icon: Heart -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:p-8">
+                        <!-- Left Col: Profile Info -->
+                        <div class="md:col-span-1 -mt-16 md:mt-0 relative z-10 px-5 md:px-0">
+                            <div class="bg-white rounded-3xl md:rounded-2xl shadow-xl md:shadow-none md:border md:border-slate-100 p-6 flex flex-col items-center text-center">
+                                <div class="relative">
+                                    <!-- Dynamic Avatar Placeholder -->
+                                    <div id="detail-avatar-container" class="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white shadow-md flex items-center justify-center text-4xl font-bold">
+                                        <!-- Content injected via JS -->
+                                    </div>
+                                    <div id="detail-verified" class="absolute bottom-0 right-0 bg-blue-500 text-white p-1 rounded-full border-2 border-white" style="display:none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+                                    </div>
+                                </div>
+                                
+                                <h2 id="detail-name" class="mt-3 text-xl font-bold text-slate-800">Nama Tukang</h2>
+                                <p id="detail-category" class="text-blue-600 font-medium text-sm mb-4">Kategori</p>
+
+                                <div class="flex justify-center w-full gap-6 border-t border-gray-100 pt-4">
+                                    <div>
+                                        <div class="flex items-center text-amber-400 font-bold text-lg justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                            <span id="detail-rating">0.0</span>
+                                        </div>
+                                        <p class="text-xs text-gray-400">Rating</p>
+                                    </div>
+                                    <div class="w-px bg-gray-200"></div>
+                                    <div>
+                                        <div id="detail-reviews" class="font-bold text-lg text-slate-700">0</div>
+                                        <p class="text-xs text-gray-400">Ulasan</p>
+                                    </div>
+                                    <div class="w-px bg-gray-200"></div>
+                                    <div>
+                                        <div class="font-bold text-lg text-slate-700">5+ Thn</div>
+                                        <p class="text-xs text-gray-400">Pengalaman</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Col: Details -->
+                        <div class="md:col-span-2 px-6 py-6 md:p-0 space-y-6">
+                            <div>
+                                <h3 class="font-bold text-slate-800 mb-3 text-lg">Tentang</h3>
+                                <p id="detail-desc" class="text-slate-500 text-sm leading-relaxed bg-white md:bg-slate-50 p-4 rounded-2xl shadow-sm md:shadow-none border border-slate-100 md:border-0">
+                                    Deskripsi tukang akan muncul di sini.
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3 class="font-bold text-slate-800 mb-3 text-lg">Keahlian</h3>
+                                <div id="detail-tags" class="flex flex-wrap gap-2">
+                                    <!-- Tags inserted via JS -->
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="font-bold text-slate-800 mb-3 text-lg">Biaya Jasa</h3>
+                                <div class="bg-white md:bg-blue-50 p-4 rounded-2xl shadow-sm md:shadow-none flex justify-between items-center border border-slate-100 md:border-blue-100">
+                                    <span class="text-slate-600 font-medium">Tarif per jam</span>
+                                    <span id="detail-price" class="text-blue-600 font-bold text-xl">Rp 0</span>
+                                </div>
+                            </div>
+
+                            <!-- Desktop Action Button (Inline) -->
+                            <div class="hidden md:block pt-4">
+                                <button onclick="alert('Fitur Booking akan diintegrasikan dengan Backend')" class="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                                    Booking Sekarang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Fixed Bottom Action Button -->
+                <div class="md:hidden fixed bottom-0 left-0 right-0 w-full bg-white p-5 pt-4 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] z-30">
+                    <button onclick="alert('Fitur Booking akan diintegrasikan dengan Backend')" class="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 transition active:scale-[0.98] shadow-lg shadow-blue-200 flex justify-center items-center gap-2">
+                        Booking Sekarang
+                    </button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MOBILE BOTTOM NAVIGATION (Hidden on Desktop) -->
+    <div id="bottom-nav" class="md:hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 w-[90%] max-w-sm z-50">
+        <div class="bg-white/90 backdrop-blur-lg border border-white/20 shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-2xl flex justify-around py-4 px-2">
+            <button onclick="navigateTo('view-home')" class="nav-btn active flex flex-col items-center transition-all duration-300 text-blue-600 scale-110">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </button>
+            <button onclick="window.location.href = 'Pesanan.html'" class="nav-btn flex flex-col items-center transition-all duration-300 text-gray-400 hover:text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            </button>
+            <button onclick="window.location.href = 'chat.html'" class="nav-btn flex flex-col items-center transition-all duration-300 text-gray-400 hover:text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </button>
+            <button onclick="window.location.href = 'Akun Pelanggan.html'" class="nav-btn flex flex-col items-center transition-all duration-300 text-gray-400 hover:text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Link Logic JS -->
+    <script src="script.js"></script>
+</body>
+</html>

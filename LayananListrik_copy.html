@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan Listrik - Copy (dengan Logika)</title>
+    <!-- Memuat Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .flex-container { display: flex; min-height: 100vh; }
+        #app-container { flex-grow: 1; background-color: white; margin: 0 auto; box-shadow: none; display: flex; flex-direction: column; position: relative; }
+        @media (min-width: 1024px) { .flex-container { max-width: 1200px; margin: 0 auto; box-shadow: 0 0 15px rgba(0,0,0,0.05); } }
+        .content-area { padding-bottom: 80px; }
+        .job-card { display:flex; align-items:center; padding:16px; background:#fff; border:1px solid #e5e7eb; border-radius:12px; transition:all .2s; cursor:pointer }
+        .job-card:hover { border-color:#3b82f6; box-shadow:0 4px 6px rgba(59,130,246,.2); }
+        .job-icon { width:40px; height:40px; margin-right:16px; color:#3b82f6; background:#e0f2fe; padding:8px; border-radius:8px; flex-shrink:0 }
+        .tukang-profile { display:flex; background:#f9fafb; padding:16px; border-radius:12px; border:1px solid #e5e7eb }
+    </style>
+</head>
+<body>
+    <div class="flex-container">
+        <div id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out bg-white w-64 border-r border-gray-200 p-6 flex flex-col z-30 lg:relative lg:shadow-none">
+            <div class="flex items-center mb-10 mt-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-blue-600 mr-2">
+                    <path d="M12 2L2 7V17L12 22L22 17V7L12 2ZM12 4.35L20 8.7V15.3L12 19.65L4 15.3V8.7L12 4.35ZM12 13L15 15.15V17L12 14.85L9 17V15.15L12 13Z" fill="currentColor"/>
+                </svg>
+                <h2 class="text-2xl font-bold text-blue-600">HandyMan</h2>
+                <button onclick="toggleSidebar()" class="lg:hidden absolute right-2 top-2 p-2 text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <nav class="space-y-1 flex-grow">
+                <a href="Beranda.html" class="nav-link flex items-center p-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600">Beranda</a>
+                <a href="#" class="nav-link flex items-center p-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-blue-600">Pesanan</a>
+                <a href="#" class="nav-link flex items-center p-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-blue-600">Chat</a>
+                <a href="#" class="nav-link flex items-center p-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-blue-600">Profil</a>
+            </nav>
+            <div class="mt-auto pt-6 border-t border-gray-200">
+                <a href="#" class="flex items-center mt-2 p-2 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-blue-600">
+                    <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-bold text-sm flex-shrink-0 mr-3">PS</div>
+                    <div>
+                        <p class="text-sm font-semibold text-gray-800">Pelanggan Setia</p>
+                        <p class="text-xs text-gray-500">Premium Member</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div id="app-container">
+            <header class="p-4 pt-8 lg:pt-8 border-b border-gray-100 flex items-center sticky top-0 bg-white z-20">
+                <button onclick="toggleSidebar()" class="lg:hidden text-gray-500 hover:text-blue-600 mr-4 p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-800 lg:text-3xl">Tukang Listrik (Copy)</h1>
+                    <p class="text-sm text-gray-500" id="header-subtitle">Pilih jenis masalah listrik Anda.</p>
+                </div>
+            </header>
+
+            <main class="flex-grow overflow-y-auto content-area p-4 lg:p-8">
+                <div class="lg:grid lg:grid-cols-2 lg:gap-10">
+                    <div class="lg:col-span-1">
+                        <section class="mb-8" id="section-masalah">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4 lg:text-2xl">Pilih Jenis Masalah</h3>
+                            <div class="space-y-3">
+                                <a href="#" class="job-card" onclick="openOrderForm('Perbaikan Stop Kontak / Sakelar')">
+                                    <div class="job-icon">🔌</div>
+                                    <div>
+                                        <p class="text-base font-semibold text-gray-700">Perbaikan Stop Kontak / Sakelar</p>
+                                        <p class="text-xs text-gray-500">Mulai dari Rp 45.000</p>
+                                    </div>
+                                </a>
+                                <a href="#" class="job-card" onclick="openOrderForm('Perbaikan/Pemasangan Lampu')">
+                                    <div class="job-icon">💡</div>
+                                    <div>
+                                        <p class="text-base font-semibold text-gray-700">Lampu Mati & Pemasangan Baru</p>
+                                        <p class="text-xs text-gray-500">Mulai dari Rp 50.000</p>
+                                    </div>
+                                </a>
+                                <a href="#" class="job-card" onclick="openOrderForm('Perbaikan MCB Turun')">
+                                    <div class="job-icon">⚡</div>
+                                    <div>
+                                        <p class="text-base font-semibold text-gray-700">Listrik Turun (MCB Trip)</p>
+                                        <p class="text-xs text-gray-500">Cek meteran, periksa konslet.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="lg:col-span-1">
+                        <section class="mt-8 lg:mt-0 hidden" id="section-tukang-profil">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4 lg:text-2xl">Tukang Tersedia untuk <span id="tukang-job-title" class="text-blue-600">Masalah Anda</span></h3>
+                                    <div id="tukang-list" data-category="Listrik" class="space-y-4">
+                                        <!-- Tukang kategori Listrik akan dirender di sini dari localStorage -->
+                                    </div>
+                        </section>
+                    </div>
+                </div>
+            </main>
+
+            <nav class="fixed bottom-0 w-full max-w-full bg-white border-t border-gray-200 shadow-2xl p-3 lg:hidden">
+                <div class="flex justify-around items-center max-w-[420px] mx-auto">
+                    <a href="Beranda.html" class="flex flex-col items-center text-blue-600"><span class="text-xs font-semibold mt-1">Beranda</span></a>
+                    <a href="#" class="flex flex-col items-center text-gray-400 hover:text-blue-500"><span class="text-xs mt-1">Riwayat</span></a>
+                    <a href="#" class="flex flex-col items-center text-gray-400 hover:text-blue-500"><span class="text-xs mt-1">Profil</span></a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ORDER FORM MODAL (diperuntukkan untuk men-submit pesanan) -->
+    <div id="order-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
+            <h3 class="text-lg font-bold mb-2">Buat Pesanan - <span id="modal-job-title"></span></h3>
+            <p class="text-xs text-gray-500 mb-4">Isi detail berikut, lalu klik Kirim Pesanan.</p>
+            <div class="space-y-3">
+                <input id="input-name" class="w-full p-3 border rounded" placeholder="Nama Anda" />
+                <input id="input-phone" class="w-full p-3 border rounded" placeholder="No. HP" />
+                <input id="input-address" class="w-full p-3 border rounded" placeholder="Alamat Lengkap" />
+                <textarea id="input-desc" class="w-full p-3 border rounded" rows="4" placeholder="Deskripsikan masalah (detail)"></textarea>
+                <div class="flex gap-2">
+                    <button id="submit-order-btn" class="flex-1 bg-blue-600 text-white py-2 rounded">Kirim Pesanan</button>
+                    <button onclick="closeOrderModal()" class="flex-1 border border-gray-200 py-2 rounded">Batal</button>
+                </div>
+                <p id="order-feedback" class="text-sm text-red-500 hidden"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- HALAMAN KOPI: LOGIKA PESANAN & ALUR ---
+           Penjelasan singkat logika yang ditambahkan:
+           1) Pengguna memilih jenis pekerjaan -> memanggil openOrderForm(jobTitle)
+           2) Modal form akan muncul, pengguna isi nama, telepon, alamat, deskripsi
+           3) submitOrder() akan membuat POST ke `/api/pesanan` (struktur body disesuaikan dengan API backend Anda)
+           4) Setelah berhasil, kita menyimpan `current_order_id` di localStorage dan mengarahkan pengguna ke halaman pembayaran atau Beranda
+           5) Jika Anda ingin menambahkan foto, gunakan form multipart dan endpoint upload yang sudah ada di aplikasi
+        */
+
+        const API_URL = 'http://localhost:3000/api'; // Ganti bila server di alamat lain
+
+        // Membuka modal order dan mengisi judul
+        function openOrderForm(jobTitle) {
+            document.getElementById('modal-job-title').textContent = jobTitle;
+            document.getElementById('order-modal').classList.remove('hidden');
+            // set default values untuk kemudahan testing
+            document.getElementById('input-desc').value = jobTitle + ' - Perlu penanganan segera.';
+            document.getElementById('order-feedback').classList.add('hidden');
+        }
+
+        function closeOrderModal() {
+            document.getElementById('order-modal').classList.add('hidden');
+        }
+
+        // Fungsi ini akan memanggil API untuk membuat pesanan baru
+        async function submitOrder() {
+            const name = document.getElementById('input-name').value.trim();
+            const phone = document.getElementById('input-phone').value.trim();
+            const address = document.getElementById('input-address').value.trim();
+            const desc = document.getElementById('input-desc').value.trim();
+            const jobTitle = document.getElementById('modal-job-title').textContent;
+
+            // Validasi sederhana
+            if (!name || !phone || !address || !desc) {
+                const fb = document.getElementById('order-feedback');
+                fb.textContent = 'Mohon lengkapi semua bidang.';
+                fb.classList.remove('hidden');
+                return;
+            }
+
+            // Disable tombol saat memproses
+            const btn = document.getElementById('submit-order-btn');
+            btn.disabled = true; btn.textContent = 'Mengirim...';
+
+            try {
+                // Contoh body sesuai asumsi backend pesanan
+                const body = {
+                    nama_user: name,
+                    telepon: phone,
+                    alamat: address,
+                    kategori_jasa: 'Listrik - ' + jobTitle,
+                    deskripsi_masalah: desc,
+                    status: 'pending' // default
+                };
+
+                const res = await fetch(`${API_URL}/pesanan`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+
+                const result = await res.json();
+
+                if (result.success) {
+                    // Simpan ID pesanan pada localStorage untuk penggunaan selanjutnya
+                    localStorage.setItem('current_order_id', result.insertId || result.data?.id || '');
+                    localStorage.setItem('current_order_category', body.kategori_jasa);
+                    localStorage.setItem('current_order_amount', 50000); // contoh nilai default
+
+                    showToast('Pesanan berhasil dibuat! Mengarahkan ke halaman pembayaran...');
+
+                    // Redirect ke halaman pembayaran (opsional) atau kembali ke Beranda
+                    setTimeout(() => {
+                        window.location.href = `/pembayaran-qris.html?order_id=${localStorage.getItem('current_order_id')}`;
+                    }, 1100);
+                } else {
+                    throw new Error(result.message || 'Gagal membuat pesanan');
+                }
+            } catch (err) {
+                console.error('Error submitOrder:', err);
+                const fb = document.getElementById('order-feedback');
+                fb.textContent = 'Terjadi kesalahan saat membuat pesanan: ' + (err.message || err);
+                fb.classList.remove('hidden');
+            } finally {
+                btn.disabled = false; btn.textContent = 'Kirim Pesanan';
+            }
+        }
+
+        // Tombol submit event
+        document.getElementById('submit-order-btn').addEventListener('click', submitOrder);
+
+        // Fungsi sederhana saat memesan tukang langsung (contoh integrasi cepat)
+        function bookTukang(tukangId) {
+            // Logika booking cepat (bisa memanggil endpoint API booking jika ada)
+            showToast('Permintaan booking dikirim untuk tukang ID ' + tukangId);
+        }
+
+        // Reuse fungsi toggleSidebar & showToast dari versi asli
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+
+        function showToast(message) {
+            console.log('[Toast]', message);
+            const existing = document.querySelector('.fixed.top-4');
+            if (existing) existing.remove();
+            const t = document.createElement('div');
+            t.className = 'fixed top-4 left-1/2 -translate-x-1/2 p-3 bg-blue-600 text-white rounded-lg shadow-xl text-sm z-50';
+            t.textContent = message;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 2500);
+        }
+
+        // Inisialisasi tampilan
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('section-tukang-profil').classList.add('hidden');
+            document.getElementById('header-subtitle').textContent = 'Pilih jenis pekerjaan yang Anda butuhkan.';
+        });
+
+    </script>
+</body>
+</html>

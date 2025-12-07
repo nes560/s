@@ -1,0 +1,106 @@
+        <div>
+            <div class="job-card" onclick="openOrderForm('Pembersihan Rumah / Rumah Kos')">
+                <div class="job-icon">🧹</div>
+                <div>
+                    <p class="font-semibold">Pembersihan Rumah / Rumah Kos</p>
+                    <p class="text-xs text-gray-500">Mulai dari Rp 60.000</p>
+                </div>
+            </div>
+            <div class="job-card" onclick="openOrderForm('Cuci Karpet / Sofa')">
+                <div class="job-icon">🧼</div>
+                <div>
+                    <p class="font-semibold">Cuci Karpet / Sofa</p>
+                    <p class="text-xs text-gray-500">Harga tergantung ukuran</p>
+                </div>
+            </div>
+            <div class="job-card" onclick="openOrderForm('Deep Cleaning')">
+                <div class="job-icon">🧽</div>
+                <div>
+                    <p class="font-semibold">Deep Cleaning</p>
+                    <p class="text-xs text-gray-500">Pembersihan mendalam</p>
+                </div>
+            </div>
+        </div>
+
+        <section class="mt-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4 lg:text-2xl">Tukang Kebersihan Tersedia</h3>
+            <div id="tukang-list" data-category="Bersih" class="space-y-4"></div>
+        </section>
+
+        <div id="order-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
+                <h3 class="text-lg font-bold mb-2">Buat Pesanan - <span id="modal-job-title"></span></h3>
+                <div class="space-y-3">
+                    <input id="input-name" class="w-full p-3 border rounded" placeholder="Nama Anda" />
+                    <input id="input-phone" class="w-full p-3 border rounded" placeholder="No. HP" />
+                    <input id="input-address" class="w-full p-3 border rounded" placeholder="Alamat Lengkap" />
+                    <textarea id="input-desc" class="w-full p-3 border rounded" rows="4" placeholder="Deskripsikan kebutuhan kebersihan"></textarea>
+                    <div class="flex gap-2">
+                        <button id="submit-order-btn" class="flex-1 bg-blue-600 text-white py-2 rounded">Kirim Pesanan</button>
+                        <button onclick="closeOrderModal()" class="flex-1 border border-gray-200 py-2 rounded">Batal</button>
+                    </div>
+                    <p id="order-feedback" class="text-sm text-red-500 hidden"></p>
+                </div>
+            </div>
+        </div>
+            </header>
+
+            <main class="p-6 max-w-3xl mx-auto">
+                <div>
+                    <div class="job-card" onclick="openOrderForm('Pembersihan Rumah / Rumah Kos')">
+                        <div class="job-icon">🧹</div>
+                        <div>
+                            <p class="font-semibold">Pembersihan Rumah / Rumah Kos</p>
+                            <p class="text-xs text-gray-500">Mulai dari Rp 60.000</p>
+                        </div>
+                    </div>
+                    <div class="job-card" onclick="openOrderForm('Cuci Karpet / Sofa')">
+                        <div class="job-icon">🧼</div>
+                        <div>
+                            <p class="font-semibold">Cuci Karpet / Sofa</p>
+                            <p class="text-xs text-gray-500">Harga tergantung ukuran</p>
+                        </div>
+                    </div>
+                    <div class="job-card" onclick="openOrderForm('Deep Cleaning')">
+                        <div class="job-icon">🧽</div>
+                        <div>
+                            <p class="font-semibold">Deep Cleaning</p>
+                            <p class="text-xs text-gray-500">Pembersihan mendalam</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="order-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+                    <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
+                        <h3 class="text-lg font-bold mb-2">Buat Pesanan - <span id="modal-job-title"></span></h3>
+                        <p class="text-xs text-gray-500 mb-4">Isi detail berikut, lalu klik Kirim Pesanan.</p>
+                        <div class="space-y-3">
+                            <input id="input-name" class="w-full p-3 border rounded" placeholder="Nama Anda" />
+                            <input id="input-phone" class="w-full p-3 border rounded" placeholder="No. HP" />
+                            <input id="input-address" class="w-full p-3 border rounded" placeholder="Alamat Lengkap" />
+                            <textarea id="input-desc" class="w-full p-3 border rounded" rows="4" placeholder="Deskripsikan kebutuhan kebersihan"></textarea>
+                            <div class="flex gap-2">
+                                <button id="submit-order-btn" class="flex-1 bg-blue-600 text-white py-2 rounded">Kirim Pesanan</button>
+                                <button onclick="closeOrderModal()" class="flex-1 border border-gray-200 py-2 rounded">Batal</button>
+                            </div>
+                            <p id="order-feedback" class="text-sm text-red-500 hidden"></p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('-translate-x-full'); }
+        function openOrderForm(jobTitle){ document.getElementById('modal-job-title').textContent = jobTitle; document.getElementById('order-modal').classList.remove('hidden'); document.getElementById('input-desc').value=jobTitle+' - Mohon jelaskan area yg perlu dibersihkan.'; document.getElementById('order-feedback').classList.add('hidden'); }
+        function closeOrderModal(){ document.getElementById('order-modal').classList.add('hidden'); }
+        async function submitOrder(){ const name=document.getElementById('input-name').value.trim(); const phone=document.getElementById('input-phone').value.trim(); const address=document.getElementById('input-address').value.trim(); const desc=document.getElementById('input-desc').value.trim(); const jobTitle=document.getElementById('modal-job-title').textContent; if(!name||!phone||!address||!desc){ const fb=document.getElementById('order-feedback'); fb.textContent='Mohon lengkapi semua bidang.'; fb.classList.remove('hidden'); return } const btn=document.getElementById('submit-order-btn'); btn.disabled=true; btn.textContent='Mengirim...'; try{ const body={nama_user:name, telepon:phone, alamat:address, kategori_jasa:'Bersih - '+jobTitle, deskripsi_masalah:desc, status:'pending'}; const res=await fetch(`${API_URL}/pesanan`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); const result=await res.json(); if(result.success){ localStorage.setItem('current_order_id', result.insertId||result.data?.id||''); localStorage.setItem('current_order_category', body.kategori_jasa); localStorage.setItem('current_order_amount',60000); showToast('Pesanan berhasil dibuat! Mengarahkan ke halaman pembayaran...'); setTimeout(()=>{ window.location.href=`/pembayaran-qris.html?order_id=${localStorage.getItem('current_order_id')}`; },900); } else { throw new Error(result.message||'Gagal') } } catch(err){ console.error(err); const fb=document.getElementById('order-feedback'); fb.textContent='Terjadi kesalahan: '+(err.message||err); fb.classList.remove('hidden') } finally{ btn.disabled=false; btn.textContent='Kirim Pesanan' } }
+        function bookTukang(tukangId){ showToast('Permintaan booking dikirim untuk tukang ID '+tukangId); }
+        function showToast(message){ console.log('[Toast]', message); const existing=document.querySelector('.fixed.top-4'); if(existing) existing.remove(); const t=document.createElement('div'); t.className='fixed top-4 left-1/2 -translate-x-1/2 p-3 bg-blue-600 text-white rounded-lg shadow-xl text-sm z-50'; t.textContent=message; document.body.appendChild(t); setTimeout(()=>t.remove(),2500); }
+        document.getElementById('submit-order-btn')?.addEventListener('click', submitOrder);
+    </script>
+</body>
+</html>

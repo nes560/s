@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Pesanan - Tukang Connect</title>
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans text-slate-800">
+
+    <!-- WRAPPER UTAMA: Layout Responsif -->
+    <div class="max-w-7xl mx-auto min-h-screen relative md:flex">
+
+        <!-- =========================== -->
+        <!-- SIDEBAR DESKTOP (Kiri) -->
+        <!-- =========================== -->
+        <aside class="hidden md:flex flex-col w-64 bg-white border-r border-slate-200 h-screen sticky top-0 p-6 shadow-sm z-40">
+            <div class="flex items-center gap-2 mb-10 text-blue-600">
+                <!-- Icon: Hammer -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fill-blue-100"><path d="m15 12-8.5 8.5c-.83.83-2.17.83-3 0 0 0 0 0 0 0a2.12 2.12 0 0 1 0-3L12 9"/><path d="M17.64 15 22 10.64"/><path d="m20.91 11.7-1.25-1.25c-.6-.6-.93-1.4-.93-2.25V7.86c0-.55-.45-1-1-1H14.5c-.85 0-1.65-.33-2.25-.93L11 4.71"/><path d="M5.5 8.5 9 12"/></svg>
+                <h1 class="font-bold text-xl tracking-tight text-slate-800">Tukang<span class="text-blue-600">Connect</span></h1>
+            </div>
+
+            <nav class="space-y-2 flex-1">
+                <!-- Tombol Beranda -->
+                <button onclick="window.location.href='Beranda.html'" class="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-700 rounded-xl font-medium transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Beranda
+                </button>
+                
+                <!-- Tombol Pesanan (AKTIF/BIRU) -->
+                <button class="w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-xl font-medium transition shadow-sm border border-blue-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                    Buat Pesanan
+                </button>
+                
+                <button onclick="window.location.href='chat.html'" class="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-700 rounded-xl font-medium transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Chat
+                </button>
+                
+                <!-- Tombol Logout -->
+                <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl font-medium transition mt-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                    Logout
+                </button>
+            </nav>
+        </aside>
+
+        <!-- =========================== -->
+        <!-- AREA KONTEN (Tengah) -->
+        <!-- =========================== -->
+        <main class="flex-1 min-h-screen relative overflow-x-hidden pb-24 md:pb-0 bg-slate-50">
+
+            <!-- Header Biru (Sama seperti Beranda) -->
+            <div class="bg-gradient-to-br from-blue-600 to-blue-800 pt-8 pb-16 px-6 md:px-10 rounded-b-[2.5rem] md:rounded-b-[3rem] shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -mr-10 -mt-10 blur-3xl"></div>
+                
+                <div class="flex justify-between items-center mb-6 relative z-10">
+                    <div>
+                        <!-- Tombol Kembali Mobile -->
+                        <a href="Beranda.html" class="inline-flex items-center text-blue-100 hover:text-white text-sm mb-2 md:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1"><path d="m15 18-6-6 6-6"/></svg> Kembali
+                        </a>
+                        <h1 class="text-white font-bold text-2xl md:text-3xl">Form Pemesanan</h1>
+                        <p class="text-blue-100 text-sm mt-1">Jelaskan kebutuhan perbaikan Anda</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kartu Form Input -->
+            <div class="px-5 md:px-10 -mt-10 relative z-20">
+                <div class="bg-white rounded-3xl shadow-lg border border-slate-100 p-6 md:p-8 max-w-3xl mx-auto">
+                    
+                    <form onsubmit="kirimPesanan(event)" class="space-y-6">
+                        
+                        <!-- Input Kategori -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Kategori Jasa</label>
+                            <select id="kategori" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition">
+                                <option value="Bangunan & Renovasi">Bangunan & Renovasi</option>
+                                <option value="Listrik">Instalasi Listrik</option>
+                                <option value="Pipa & Air">Pipa & Saluran Air</option>
+                                <option value="AC & Elektronik">Servis AC & Elektronik</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+
+                        <!-- Input Deskripsi -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Detail Masalah</label>
+                            <textarea id="deskripsi" rows="4" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-700 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition resize-none" placeholder="Contoh: Atap bocor di bagian dapur, air merembes ke dinding..."></textarea>
+                        </div>
+
+                        <!-- Input Foto (Logic Baru) -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Foto Kondisi (Opsional)</label>
+                            <div class="relative group cursor-pointer">
+                                <!-- EVENT ONCHANGE: Untuk konversi foto ke teks -->
+                                <input type="file" id="foto" accept="image/*" onchange="convertFoto(this)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                
+                                <div class="w-full bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl p-6 text-center group-hover:border-blue-400 group-hover:bg-blue-50 transition">
+                                    <div class="flex flex-col items-center justify-center text-slate-400 group-hover:text-blue-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                                        <span id="file-label" class="text-sm font-medium">Klik untuk upload foto</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Input Alamat -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Alamat Lengkap</label>
+                            <textarea id="alamat" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-700 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition resize-none" placeholder="Nama Jalan, No. Rumah, RT/RW, Patokan..."></textarea>
+                        </div>
+
+                        <!-- Tombol Kirim -->
+                        <div class="pt-4 flex gap-4">
+                            <button type="button" onclick="window.location.href='Beranda.html'" class="flex-1 py-3.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition hidden md:block">
+                                Batal
+                            </button>
+                            <button type="submit" class="flex-1 bg-blue-600 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 active:scale-[0.98] transition">
+                                Kirim Pesanan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MOBILE BOTTOM NAVIGATION (Sama seperti Beranda) -->
+    <div id="bottom-nav" class="md:hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 w-[90%] max-w-sm z-50">
+        <div class="bg-white/90 backdrop-blur-lg border border-white/20 shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-2xl flex justify-around py-4 px-2">
+            
+            <!-- Tombol Beranda -->
+            <button onclick="window.location.href='Beranda.html'" class="nav-btn flex flex-col items-center transition-all duration-300 text-gray-400 hover:text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </button>
+            
+            <!-- Tombol Pesanan (AKTIF) -->
+            <button class="nav-btn active flex flex-col items-center transition-all duration-300 text-blue-600 scale-110">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            </button>
+            
+            <!-- Tombol Chat -->
+            <button onclick="window.location.href='chat.html'" class="nav-btn flex flex-col items-center transition-all duration-300 text-gray-400 hover:text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </button>
+            
+            <!-- Tombol Logout (Mobile) -->
+            <button onclick="logout()" class="nav-btn flex flex-col items-center transition-all duration-300 text-red-400 hover:text-red-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Script Logika -->
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        let selectedFile = null; // File object selected by user
+
+        // 1. Fungsi Mengubah Foto jadi Teks Base64
+        function convertFoto(input) {
+            const file = input.files[0];
+            if (file) {
+                // Simpan file object untuk dikirim via FormData
+                selectedFile = file;
+                // Tampilkan nama file di label
+                document.getElementById('file-label').innerText = file.name;
+                document.getElementById('file-label').classList.add('text-slate-800', 'font-bold');
+            }
+        }
+
+        // Fungsi Logout
+        function logout() {
+            if(confirm('Yakin ingin keluar?')) {
+                localStorage.removeItem('user_session');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // 2. Fungsi Kirim Pesanan
+        async function kirimPesanan(event) {
+            event.preventDefault();
+
+            // Cek Login
+            const userSession = JSON.parse(localStorage.getItem('user_session'));
+            if (!userSession) {
+                alert('Sesi habis. Silakan login kembali.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Ambil Data Form
+            const nama_user = userSession.nama_depan + ' ' + userSession.nama_belakang;
+            const kategori = document.getElementById('kategori').value;
+            const deskripsi = document.getElementById('deskripsi').value;
+            const alamat = document.getElementById('alamat').value;
+
+            // Validasi
+            if(!deskripsi || !alamat) {
+                alert('Mohon lengkapi deskripsi dan alamat!');
+                return;
+            }
+
+            // Kirim ke Backend
+            try {
+                // Jika ada file terpilih, gunakan multipart/form-data ke endpoint /pesanan-upload
+                let response;
+                if (selectedFile) {
+                    const form = new FormData();
+                    form.append('nama_user', nama_user);
+                    form.append('kategori', kategori);
+                    form.append('deskripsi', deskripsi);
+                    form.append('alamat', alamat);
+                    form.append('foto', selectedFile, selectedFile.name);
+
+                    response = await fetch(`${API_URL}/pesanan-upload`, {
+                        method: 'POST',
+                        body: form
+                    });
+                } else {
+                    // Tanpa foto, kirim lewat JSON ke /pesanan
+                    const data = { nama_user, kategori, deskripsi, alamat, foto: null };
+                    response = await fetch(`${API_URL}/pesanan`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                }
+
+                // Try to parse JSON, otherwise read raw text
+                let result, text;
+                try {
+                    result = await response.json();
+                } catch (e) {
+                    text = await response.text();
+                }
+
+                if (result && result.success) {
+                    alert('✅ ' + result.message);
+                    window.location.href = 'Beranda.html';
+                } else {
+                    const serverMsg = (result && result.message) ? result.message : (text ? text : response.statusText);
+                    console.error('Upload failed response:', { status: response.status, body: result || text });
+                    alert('❌ Gagal: ' + (serverMsg || 'Tidak diketahui'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal terhubung ke server. Pastikan Node.js menyala.');
+            }
+        }
+    </script>
+</body>
+</html>
