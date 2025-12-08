@@ -12,7 +12,7 @@
  */
 
 // --- KONFIGURASI API & STATE ---
-const API_URL = "s-production-4388.up.railway.app"; // Ganti dengan URL Backend aslimu
+const API_URL = "b-production-8818.up.railway.app"; // Ganti dengan URL Backend aslimu
 let currentTab = 'pending'; 
 
 // --- EVENT LISTENER UTAMA (SAAT LOAD) ---
@@ -372,4 +372,5 @@ function goToPayment(orderId) {
     // Navigate to payment page with order ID
     window.location.href = `../pembayaran-qris.html?order_id=${orderId}`;
 }
+
 
