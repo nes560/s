@@ -205,7 +205,7 @@ function createOrderCard(order, buttons) {
     let fotoHtml = '';
     if (order['Foto masalah'] || order.foto_masalah) {
         const fotoPath = order['Foto masalah'] || order.foto_masalah;
-        fotoHtml = `<img src="http://localhost:3000/${fotoPath}" alt="Foto masalah" class="w-full h-32 object-cover rounded-lg mb-3 border border-slate-100">`;
+        fotoHtml = `<img src="${API_URL}/${fotoPath}" alt="Foto masalah" class="w-full h-32 object-cover rounded-lg mb-3 border border-slate-100">`;
     }
     
     return `
@@ -372,6 +372,7 @@ function goToPayment(orderId) {
     // Navigate to payment page with order ID
     window.location.href = `../pembayaran-qris.html?order_id=${orderId}`;
 }
+
 
 
 
