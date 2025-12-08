@@ -1,4 +1,4 @@
-const API_URL = 'https://s-production-4388.up.railway.app/api';
+const API_URL = 'b-production-8818.up.railway.app';
 
 // --- FUNGSI REGISTER ---
 async function handleRegister(event) {
@@ -268,4 +268,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tl && tl.dataset && tl.dataset.category) renderTukangs('tukang-list', tl.dataset.category);
 
 });
+
 
